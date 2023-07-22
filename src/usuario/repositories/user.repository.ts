@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserDto } from '../dto/createUser.dto';
+import { UsuarioComputadorDto } from 'src/usuario-computador/create-usuario-computador.dto';
 import { UpdateUserDto } from '../dto/updateUser.dto';
 import { UserEntity } from '../entities/user.entity';
-import { CreateComputadorDto } from 'src/computador/dto/createComputador.dto';
+
 
 @Injectable()
 export class UserRepository{
     constructor(private readonly prisma: PrismaService){}
 
-    async create(createUserDto: CreateUserDto, createComputadorDto? : CreateComputadorDto): Promise<UserEntity>{
+    async create(usuarioComputadorDto: UsuarioComputadorDto): Promise<UserEntity>{
 
-        if (createComputadorDto){
+        if (usuarioComputadorDto.computador){
             return this.prisma.usuario.create({
                 data:{
-                    email : createUserDto.email,
-                    name : createUserDto.name,
-                    password: createUserDto.password,
+                    email : usuarioComputadorDto.usuario.email,
+                    name : usuarioComputadorDto.usuario.name,
+                    password: usuarioComputadorDto.usuario.password,
                     computador:{
                         create:[{
-                            placaMae: createComputadorDto.placaMae,
-                            processador: createComputadorDto.processador,
-                            placaDeVideo: createComputadorDto.placaDeVideo,
-                            memoriaRam: createComputadorDto.memoriaRam
+                            placaMae: usuarioComputadorDto.computador.placaMae,
+                            processador: usuarioComputadorDto.computador.processador,
+                            placaDeVideo: usuarioComputadorDto.computador.placaDeVideo,
+                            memoriaRam: usuarioComputadorDto.computador.memoriaRam
                             }
                         ]
                     }
@@ -32,16 +32,16 @@ export class UserRepository{
 
         return this.prisma.usuario.create({
             data:{
-                email : createUserDto.email,
-                name : createUserDto.name,
-                password: createUserDto.password
+                email : usuarioComputadorDto.usuario.email,
+                name : usuarioComputadorDto.usuario.name,
+                password: usuarioComputadorDto.usuario.password
             }
         })
         
     }
 
     async findAll(): Promise<UserEntity[]>{
-        //@ts-ignore
+    
         return  this.prisma.usuario.findMany({
             include: {
                 computador : true
@@ -50,8 +50,6 @@ export class UserRepository{
     }
 
     async findOne(id: number) : Promise<UserEntity>{
-        //@ts-ignore
-
         return this.prisma.usuario.findUnique(
             {
                 where: {
@@ -63,5 +61,30 @@ export class UserRepository{
             }
         )
         
+    }
+
+    async update(id: number, updateUserDto : UpdateUserDto) : Promise<UserEntity>{
+       
+        return this.prisma.usuario.update({
+            where: {
+                id
+            },
+            data: {
+                email: updateUserDto.email,
+                name: updateUserDto.name,
+                password: updateUserDto.password
+            },
+            include:{
+                computador: true
+            }
+        })
+    }
+
+    async remove(id: number): Promise<UserEntity>{
+        return this.prisma.usuario.delete({
+            where: {
+                id
+            }
+        })
     }
 }
