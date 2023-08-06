@@ -5,8 +5,10 @@ import { UserRepository } from './repositories/user.repository';
 import { UsuarioController } from './usuario.controller';
 
 
+
 @Module({
     controllers:[UsuarioController],
-    providers:[UsuarioService, PrismaService, UserRepository]
+    providers:[UsuarioService, PrismaService, UserRepository],
+
 })
 export class UsuarioModule {}

@@ -78,7 +78,7 @@ export class ComputadorRepository{
     }
 
     async delete(id:number){
-        this.prisma.computador.delete({
+        return this.prisma.computador.delete({
             where:{
                 id
             }

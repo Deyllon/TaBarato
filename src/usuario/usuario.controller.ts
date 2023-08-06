@@ -2,11 +2,14 @@ import { Body, Controller, Post, Get, Patch, Delete, Param } from '@nestjs/commo
 import { UsuarioComputadorDto } from 'src/usuario-computador/create-usuario-computador.dto';
 import { UsuarioService } from './usuario.service';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { Public } from 'src/decorator/public.decorator';
 
 @Controller('usuario')
 export class UsuarioController {
     constructor( private readonly usuarioService: UsuarioService){}
-    @Post()
+
+    @Public()
+    @Post("/create")
     create(@Body() usuarioComputadorDto: UsuarioComputadorDto){
         return this.usuarioService.create(usuarioComputadorDto)
     }

@@ -1,4 +1,4 @@
-import { ArrayMinSize, ArrayNotEmpty, IsArray, IsEmail, IsNotEmpty,  IsString,  } from "class-validator";
+import { ArrayMinSize, ArrayNotEmpty, IsArray, IsEmail, IsNotEmpty,  IsString  } from "class-validator";
 
 
 export class CreateComputadorDto{
