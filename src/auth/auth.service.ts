@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserAuthEntity } from 'src/usuario/userAuthEntity/userAuth.entity';
+import { jwtConstants } from './constant';
+import { error } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -37,5 +39,21 @@ export class AuthService {
     };
   }
 
+  async extrairUsuario(token: string){
+    const payload  = this.jwtService.verify(token,{
+      secret: jwtConstants.secret
+    })
+
+    const usuario = await this.prisma.usuario.findUnique({
+      where:{
+        id: payload.sub
+      }
+    })
+
+    
+    return usuario
+    
+    
+  }
   
 }

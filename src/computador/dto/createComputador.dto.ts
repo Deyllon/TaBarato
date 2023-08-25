@@ -1,4 +1,4 @@
-import { ArrayMinSize, ArrayNotEmpty, IsArray, IsEmail, IsNotEmpty,  IsString  } from "class-validator";
+import { ArrayMinSize, ArrayNotEmpty, IsArray, IsEmail, IsNotEmpty,  IsOptional,  IsString  } from "class-validator";
 
 
 export class CreateComputadorDto{
@@ -20,5 +20,6 @@ export class CreateComputadorDto{
     placaDeVideo: string
 
     @IsEmail()
-    usuarioEmail? : string
+   
+    usuarioEmail : string
 }

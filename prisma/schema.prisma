@@ -20,6 +20,10 @@ model Usuario{
   email String @unique
 
   computador Computador[]
+
+  mensagensEnviadas Mensagem[] @relation("MensagensEnviadas")
+
+  mensagensRecebidas Mensagem[] @relation("MensagensRecebidas")
 }
 
 model Computador{
@@ -36,5 +40,15 @@ model Computador{
   memoriaRam String[]
 
   placaDeVideo String
+
+}
+
+model Mensagem{
+   id            Int      @default(autoincrement()) @id
+  conteudo      String
+  remetente     Usuario  @relation("MensagensEnviadas", fields: [remetenteId], references: [id])
+  remetenteId   Int
+  destinatario  Usuario?  @relation("MensagensRecebidas", fields: [destinatarioId], references: [id])
+  destinatarioId Int?
 
 }

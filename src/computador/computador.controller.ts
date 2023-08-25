@@ -7,7 +7,7 @@ import { UpdateComputadorDto } from './dto/updateComputador.dto';
 export class ComputadorController {
     constructor(private readonly computadorService: ComputadorService){}
 
-    @Post()
+    @Post("/create")
     create(@Body() createComputadorDto : CreateComputadorDto){
         return this.computadorService.create(createComputadorDto)
     }
@@ -15,7 +15,7 @@ export class ComputadorController {
     @Get()
     findAll(){
         return this.computadorService.findAll()
-    }
+    } 
 
     @Get(':id')
     findOne(@Param('id') id: string){

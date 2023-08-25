@@ -26,7 +26,7 @@ export class UsuarioController {
         return this.usuarioService.update(+id, updateUserDto)
     }
     @Delete(':id')
-    remove(@Param('id') id: string){
+    remove(@Param('id') id: string){ 
         return this.usuarioService.delete(+id)
     }
 }
