@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { UsuarioComputadorDto } from 'src/usuario-computador/create-usuario-computador.dto';
 import { UpdateUserDto } from '../dto/updateUser.dto';
 import { UserEntity } from '../entities/user.entity';
+import { encryption } from 'src/hash/encryption';
 
 
 @Injectable()
@@ -10,13 +11,14 @@ export class UserRepository{
     constructor(private readonly prisma: PrismaService){}
 
     async create(usuarioComputadorDto: UsuarioComputadorDto): Promise<UserEntity>{
+        const senha = await encryption(usuarioComputadorDto.usuario.password)
 
         if (usuarioComputadorDto.computador){
             return this.prisma.usuario.create({
                 data:{
                     email : usuarioComputadorDto.usuario.email,
                     name : usuarioComputadorDto.usuario.name,
-                    password: usuarioComputadorDto.usuario.password,
+                    password: senha,
                     computador:{
                         create:[{
                             placaMae: usuarioComputadorDto.computador.placaMae,
@@ -34,7 +36,7 @@ export class UserRepository{
             data:{
                 email : usuarioComputadorDto.usuario.email,
                 name : usuarioComputadorDto.usuario.name,
-                password: usuarioComputadorDto.usuario.password
+                password: senha
             }
         })
         

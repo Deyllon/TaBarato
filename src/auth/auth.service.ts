@@ -3,7 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserAuthEntity } from 'src/usuario/userAuthEntity/userAuth.entity';
 import { jwtConstants } from './constant';
-import { error } from 'console';
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class AuthService {
@@ -20,7 +20,7 @@ export class AuthService {
           email: email
       }
   })
-    if (user && user.password === senha) {
+    if (user && await bcrypt.compare(senha ,user.password)) {
       const { password, ...result } = user;
       return result;
     }
