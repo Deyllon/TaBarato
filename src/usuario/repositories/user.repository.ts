@@ -87,10 +87,16 @@ export class UserRepository{
     }
 
     async remove(id: number): Promise<UserEntity>{
+        await this.prisma.computador.deleteMany({
+            where:{
+                usuarioId: id
+            }
+        })
         return this.prisma.usuario.delete({
             where: {
                 id
-            }
+            },
+            
         })
     }
 }
